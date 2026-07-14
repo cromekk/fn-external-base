@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Library Include="d3d9.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="driver.h" />
+    <ClInclude Include="overlay\overlay.h" />`n    <ClInclude Include="core\visuals\draw.h" />`n    <ClInclude Include="core\visuals\visuals.h" />`n    <ClInclude Include="overlay\menu.h" />`n    <ClInclude Include="core\loop.h" />
+    <ClInclude Include="includes.h" />
+    <ClInclude Include="sdk\sdk.h" />
+    <ClInclude Include="settings\settings.h" />
+    <ClInclude Include="overlay\imgui\imconfig.h" />
+    <ClInclude Include="overlay\imgui\imgui.h" />
+    <ClInclude Include="overlay\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="overlay\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="overlay\imgui\imgui_internal.h" />
+    <ClInclude Include="overlay\imgui\imstb_rectpack.h" />
+    <ClInclude Include="overlay\imgui\imstb_textedit.h" />
+    <ClInclude Include="overlay\imgui\imstb_truetype.h" />
+    <ClInclude Include="sdk\offsets.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="overlay\imgui\imgui.cpp" />
+    <ClCompile Include="overlay\imgui\imgui_demo.cpp" />
+    <ClCompile Include="overlay\imgui\imgui_draw.cpp" />
+    <ClCompile Include="overlay\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="overlay\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="overlay\imgui\imgui_tables.cpp" />
+    <ClCompile Include="overlay\imgui\imgui_widgets.cpp" />
+  </ItemGroup>
+</Project>

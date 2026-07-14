@@ -1,0 +1,11 @@
+#pragma once
+#include <Windows.h>
+#include "driver/comms.h"
+#include "settings/settings.h"
+#include "sdk/offsets.h"
+#include "sdk/sdk.h"
+#include "overlay/overlay.h"
+#include "core/visuals/draw.h"
+#include "core/visuals/visuals.h"
+#include "overlay/menu.h"
+#include "core/loop.h"

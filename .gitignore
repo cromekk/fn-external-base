@@ -1,0 +1,35 @@
+# Agent/local workspace state
+.agents/
+.codex/
+
+# Visual Studio local state
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio build outputs
+x64/
+x86/
+Debug/
+Release/
+[Bb]in/
+[Oo]bj/
+*.obj
+*.pdb
+*.ipdb
+*.iobj
+*.tlog
+*.lastbuildstate
+*.recipe
+*.ilk
+*.exe
+*.dll
+*.lib
+*.exp
+
+# OS/editor noise
+Thumbs.db
+Desktop.ini
+*.log
