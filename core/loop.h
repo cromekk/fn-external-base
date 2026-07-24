@@ -1,14 +1,10 @@
 #pragma once
 
-static auto get_uworld( ) -> uintptr_t
+std::uintptr_t decrypt_gworld( )
 {
-	constexpr uint64_t MASK = 0x93F1FA5800000000ULL;
+	cache::encrypted = request->read<uintptr_t>(  mem::base + offsets::GWORLD );
 
-	uint64_t raw = request->read<uint64_t>( mem::base + offsets::UWORLD );
-	if ( !raw || raw == MASK )
-		return 0;
-
-	return static_cast< uintptr_t >( _byteswap_uint64( raw ^ MASK ) );
+	return _byteswap_uint64( cache::encrypted ^ 0x012F546CULL ) - 1274101633ULL;
 }
 
 struct TArrayData {
@@ -21,10 +17,10 @@ void gameCache( )
 	cache::closestDistance = FLT_MAX;
 	cache::closestMesh = NULL;
 
-	cache::gWorld = get_uworld( );
-	if ( !cache::gWorld ) return;
+	cache::uWorld = decrypt_gworld( );
+	if ( !cache::uWorld ) return;
 
-	cache::gameInstance = request->read<uintptr_t>( cache::gWorld + offsets::GAME_INSTANCE );
+	cache::gameInstance = request->read<uintptr_t>( cache::uWorld + offsets::GAME_INSTANCE );
 	if ( !cache::gameInstance ) return;
 
 	uintptr_t localPlayerArray = request->read<uintptr_t>( cache::gameInstance + offsets::LOCAL_PLAYERS );
@@ -47,7 +43,7 @@ void gameCache( )
 		}
 	}
 
-	cache::gameState = request->read<uintptr_t>( cache::gWorld + offsets::GAME_STATE );
+	cache::gameState = request->read<uintptr_t>( cache::uWorld + offsets::GAME_STATE );
 	if ( cache::gameState )
 	{
 		TArrayData pArray = request->read<TArrayData>( cache::gameState + offsets::PLAYER_ARRAY );

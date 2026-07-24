@@ -39,14 +39,6 @@ void renderVisuals( )
 			{
 				draw2DBox( boxWidth,Root,HeadBox,visColor );
 			}
-			if ( visual.line )
-			{
-				drawLine( Root,visColor );
-			}
-			if ( visual.distance )
-			{
-				drawDistance( Root,distance,visColor );
-			}
 		}
 	}
 }

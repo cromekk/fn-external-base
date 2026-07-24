@@ -21,7 +21,8 @@ struct FNRot
 
 namespace cache
 {
-	inline uintptr_t gWorld;
+	inline uintptr_t encrypted;
+	inline uintptr_t uWorld;
 	inline uintptr_t gameInstance;
 	inline uintptr_t localPlayers;
 	inline uintptr_t playerController;
@@ -40,8 +41,8 @@ namespace cache
 Camera getCamera()
 {
 	Camera view_point{};
-	uintptr_t location_pointer = request->read<uintptr_t>(cache::gWorld + 0x178);
-	uintptr_t rotation_pointer = request->read<uintptr_t>(cache::gWorld + 0x188);
+	uintptr_t location_pointer = request->read<uintptr_t>(cache::uWorld + 0x178);
+	uintptr_t rotation_pointer = request->read<uintptr_t>(cache::uWorld + 0x188);
 	FNRot fnrot{};
 	fnrot.a = request->read<double>(rotation_pointer);
 	fnrot.b = request->read<double>(rotation_pointer + 0x20);
@@ -81,11 +82,11 @@ inline Vector3 getEntityBone( const std::uintptr_t mesh,const int bone_id )
 
 auto isVisible( uintptr_t mesh ) -> bool
 {
-	auto proxy = request->read<std::uintptr_t>( std::uintptr_t( mesh ) + 0xB0 );
-	if ( !proxy )
+	auto visibilityProxy = request->read<std::uintptr_t>( std::uintptr_t( mesh ) + 0xB0 );
+	if ( !visibilityProxy )
 		return false;
-	auto last_render = request->read<float>( proxy + 0x7DC );
-	auto tolerance = request->read<float>( std::uintptr_t( mesh ) + 0x330 );
-	auto last_submit = request->read<double>( proxy + 0x7B8 );
-	return ( std::fmax( 0.f,last_render + 0.0001f ) >= last_submit - static_cast< double >( tolerance ) );
+	auto visProxyLastRenderTime = request->read<float>( visibilityProxy + 0x7DC );
+	auto visTolerance = request->read<float>( std::uintptr_t( mesh ) + 0x330 );
+	auto visProxyLastSubmit = request->read<double>( visibilityProxy + 0x7B8 );
+	return ( std::fmax( 0.f,visProxyLastRenderTime + 0.0001f ) >= visProxyLastSubmit - static_cast< double >( visTolerance ) );
 }

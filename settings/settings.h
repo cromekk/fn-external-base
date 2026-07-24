@@ -26,7 +26,4 @@ class visualSettings {
 public:
 	bool enable = false;
 	bool box = false;
-	bool fillBox = false;
-	bool line = false;
-	bool distance = false;
 }; inline visualSettings visual;

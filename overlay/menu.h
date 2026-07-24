@@ -8,12 +8,16 @@ void renderMenu()
 	if ( menu.showMenu )
 	{
 		ImGui::SetNextWindowSize({ 620, 350 });
-		ImGui::Begin("Fortnite", 0, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
+		ImGui::Begin("Base", 0, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
+
 		if (ImGui::Button("Aimbot", { 196, 20 })) menu.tab = 0;
 		ImGui::SameLine();
+
 		if (ImGui::Button("Visuals", { 196, 20 })) menu.tab = 1;
 		ImGui::SameLine();
+
 		if (ImGui::Button("Misc", { 196, 20 })) menu.tab = 2;
+
 		switch ( menu.tab )
 		{
 			case 0:
@@ -27,12 +31,6 @@ void renderMenu()
 				ImGui::Checkbox("Enable", &visual.enable);
 
 				ImGui::Checkbox("Box", &visual.box);
-				ImGui::SameLine();
-				ImGui::Checkbox("Fill Box", &visual.fillBox);
-
-				ImGui::Checkbox("Line", &visual.line);
-
-				ImGui::Checkbox("Distance", &visual.distance);
 				break;
 			}
 			case 2:
