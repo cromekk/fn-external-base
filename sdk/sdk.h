@@ -80,13 +80,6 @@ inline Vector3 getEntityBone( const std::uintptr_t mesh,const int bone_id )
 	return Vector3( matrix._41,matrix._42,matrix._43 );
 }
 
-bool isVisible( uintptr_t mesh )
-{
-	double timeSeconds = request->read<double>( cache::uWorld + 0x198 );
-	double lastRenderTime = request->read<double>( mesh + 0x7C0 );
-	return ( timeSeconds - lastRenderTime ) <= 0.06;
-}
-
 bool is_visible( std::uintptr_t mesh )
 {
 	float last_submit = request->read< float >( mesh + 0x530 );
