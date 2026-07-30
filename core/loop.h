@@ -1,10 +1,16 @@
 #pragma once
 
-std::uintptr_t decrypt_gworld( )
-{
-	cache::encrypted = request->read<uintptr_t>(  mem::base + offsets::GWORLD );
+#include <bit>
 
-	return _byteswap_uint64( cache::encrypted ^ 0x012F546CULL ) - 1274101633ULL;
+inline auto get_world( ) -> std::uintptr_t
+{
+	std::uint64_t encoded = request->read< std::uint64_t >( mem::base + 0x1A73C8B0 );
+	std::uintptr_t world = static_cast< std::uintptr_t >( std::rotl( encoded - 25199075uLL,13 ) ^ 0x30A8E859uLL );
+
+	if ( !world )
+		return 0;
+
+	return world;
 }
 
 struct TArrayData {
@@ -17,7 +23,7 @@ void gameCache( )
 	cache::closestDistance = FLT_MAX;
 	cache::closestMesh = NULL;
 
-	cache::uWorld = decrypt_gworld( );
+	cache::uWorld = get_world( );
 	if ( !cache::uWorld ) return;
 
 	cache::gameInstance = request->read<uintptr_t>( cache::uWorld + offsets::GAME_INSTANCE );
