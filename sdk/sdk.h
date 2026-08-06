@@ -82,8 +82,14 @@ inline Vector3 getEntityBone( const std::uintptr_t mesh,const int bone_id )
 
 bool is_visible( std::uintptr_t mesh )
 {
-	float last_submit = request->read< float >( mesh + 0x530 );
-	double delta = request->read< double >( last_submit + 0x7E4 ); // uworld TimeSeconds
-	double last_render = request->read< double >( delta + 0x7C0 ); // uworld LastRenderTime
-	return std::fmax( 0.06,delta + 0.000099999997 ) >= last_render - static_cast< double >( last_submit );
+    uintptr_t proxy = request->read<uintptr_t>( mesh + 0xB0 );
+    if ( proxy ) {
+        double last_render = request->read<double>( proxy + 0x7B0 );
+        float  tolerance   = request->read<float >( proxy + 0x7D4 );
+
+        double last_submit = ( request->read<uint8_t>( mesh + 0x338 ) & 1 )
+            ? request->read<double>( proxy + 0x7B0 )
+            : static_cast<double>( request->read<float>( mesh + 0x328 ) );
+
+        visible = ( std::fmax( 0.f, tolerance + 0.0001f ) >= last_render - last_submit );
 }
