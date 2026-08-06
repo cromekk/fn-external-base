@@ -41,8 +41,8 @@ namespace cache
 Camera getCamera( )
 {
 	Camera view_point{};
-	uintptr_t location_pointer = request->read<uintptr_t>( cache::uWorld + 0x178 );
-	uintptr_t rotation_pointer = request->read<uintptr_t>( cache::uWorld + 0x188 );
+	uintptr_t location_pointer = request->read<uintptr_t>( cache::uWorld + 0x170 );
+	uintptr_t rotation_pointer = request->read<uintptr_t>( cache::uWorld + 0x180 );
 	FNRot fnrot{};
 	fnrot.a = request->read<double>( rotation_pointer );
 	fnrot.b = request->read<double>( rotation_pointer + 0x20 );
@@ -69,8 +69,9 @@ Vector2 PW2S( Vector3 world_location )
 
 inline Vector3 getEntityBone( const std::uintptr_t mesh,const int bone_id )
 {
-	uintptr_t bone_array = request->read<uintptr_t>( mesh + offsets::BONE_ARRAY );
-	if ( bone_array == 0 ) bone_array = request->read<uintptr_t>( mesh + offsets::BONE_ARRAY_CACHE );
+	int index = request->read<int>( mesh + offsets::BONE_ARRAY_INDEX );
+	uintptr_t bone_array = request->read<uintptr_t>( mesh + ( index * 0x10 ) + offsets::BONE_ARRAY );
+	if ( bone_array == 0 ) bone_array = request->read<uintptr_t>( mesh + offsets::BONE_ARRAY );
 
 	FTransform bone = request->read<FTransform>( bone_array + ( bone_id * 0x60 ) );
 
@@ -82,14 +83,9 @@ inline Vector3 getEntityBone( const std::uintptr_t mesh,const int bone_id )
 
 bool is_visible( std::uintptr_t mesh )
 {
-    uintptr_t proxy = request->read<uintptr_t>( mesh + 0xB0 );
-    if ( proxy ) {
-        double last_render = request->read<double>( proxy + 0x7B0 );
-        float  tolerance   = request->read<float >( proxy + 0x7D4 );
+	auto Seconds = request->read<double>( cache::uWorld + 0x190 );
+	auto LastRenderTime = request->read<float>( mesh + 0x328 );
+	if ( Seconds - LastRenderTime > 0.06f ) return false;
 
-        double last_submit = ( request->read<uint8_t>( mesh + 0x338 ) & 1 )
-            ? request->read<double>( proxy + 0x7B0 )
-            : static_cast<double>( request->read<float>( mesh + 0x328 ) );
-
-        visible = ( std::fmax( 0.f, tolerance + 0.0001f ) >= last_render - last_submit );
+	return true;
 }

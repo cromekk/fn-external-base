@@ -32,7 +32,7 @@ void renderVisuals( )
 
 			float distance = cache::localCamera.location.distance( BaseBone ) / 100;
 
-			bool isEnemyVisible = isVisible( mesh );
+			bool isEnemyVisible = is_visible( mesh );
 			ImColor visColor = isEnemyVisible ? ImColor( 0,255,0,255 ) : ImColor( 255,0,0,255 );
 
 			if ( visual.box )

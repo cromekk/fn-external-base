@@ -4,13 +4,15 @@
 
 inline auto get_world( ) -> std::uintptr_t
 {
-	std::uint64_t encoded = request->read< std::uint64_t >( mem::base + 0x1A73C8B0 );
-	std::uintptr_t world = static_cast< std::uintptr_t >( std::rotl( encoded - 25199075uLL,13 ) ^ 0x30A8E859uLL );
-
-	if ( !world )
+	uint64_t v = request->read<uint64_t>( mem::base + 0x1A6536B0 );
+	if ( !v )
 		return 0;
 
-	return world;
+	v -= 28021308ull;
+	v = _rotl64( v,16 );
+	v ^= 0x937B782ull;
+
+	return static_cast< uintptr_t >( v );
 }
 
 struct TArrayData {
